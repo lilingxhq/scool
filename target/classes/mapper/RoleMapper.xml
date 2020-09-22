@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.man.dao.RoleMapper" >
+  <resultMap id="BaseResultMap" type="com.man.entity.Role" >
+    <id column="roleid" property="roleid" jdbcType="INTEGER" />
+    <result column="roleName" property="rolename" jdbcType="VARCHAR" />
+    <result column="adddate" property="adddate" jdbcType="TIMESTAMP" />
+    <result column="editdate" property="editdate" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    roleid, roleName, adddate, editdate
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from role
+    where roleid = #{roleid,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from role
+    where roleid = #{roleid,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.man.entity.Role" useGeneratedKeys="true" keyProperty="roleid">
+    insert into role (roleid, roleName, adddate, 
+      editdate)
+    values (#{roleid,jdbcType=INTEGER}, #{rolename,jdbcType=VARCHAR}, #{adddate,jdbcType=TIMESTAMP}, 
+      #{editdate,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.man.entity.Role" useGeneratedKeys="true" keyProperty="roleid">
+    insert into role
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="roleid != null" >
+        roleid,
+      </if>
+      <if test="rolename != null" >
+        roleName,
+      </if>
+      <if test="adddate != null" >
+        adddate,
+      </if>
+      <if test="editdate != null" >
+        editdate,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="roleid != null" >
+        #{roleid,jdbcType=INTEGER},
+      </if>
+      <if test="rolename != null" >
+        #{rolename,jdbcType=VARCHAR},
+      </if>
+      <if test="adddate != null" >
+        #{adddate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="editdate != null" >
+        #{editdate,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.man.entity.Role" >
+    update role
+    <set >
+      <if test="rolename != null" >
+        roleName = #{rolename,jdbcType=VARCHAR},
+      </if>
+      <if test="adddate != null" >
+        adddate = #{adddate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="editdate != null" >
+        editdate = #{editdate,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where roleid = #{roleid,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.man.entity.Role" >
+    update role
+    set roleName = #{rolename,jdbcType=VARCHAR},
+      adddate = #{adddate,jdbcType=TIMESTAMP},
+      editdate = #{editdate,jdbcType=TIMESTAMP}
+    where roleid = #{roleid,jdbcType=INTEGER}
+  </update>
+
+  <select id="selectCount" resultType="integer">
+    select count(1) from role where 1=1
+  </select>
+
+  <select id="selectPage" resultMap="BaseResultMap">
+    select * from role where 1=1
+--     select role.*,role_menu.menuid from role left join role_menu on role.roleid = role_menu.id
+--     where 1=1
+    <if test="page != null and pageSize != null">
+      limit #{page} ,#{pageSize}
+    </if>
+  </select>
+  <select id="selectAll" resultMap="BaseResultMap">
+    select * from role
+  </select>
+</mapper>

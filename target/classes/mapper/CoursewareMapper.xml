@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.man.dao.CoursewareMapper" >
+  <resultMap id="BaseResultMap" type="com.man.entity.Courseware" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="title" property="title" jdbcType="VARCHAR" />
+    <result column="descr" property="descr" jdbcType="VARCHAR" />
+    <result column="file_url" property="fileUrl" jdbcType="VARCHAR" />
+    <result column="lesson_id" property="lessonId" jdbcType="INTEGER" />
+    <result column="adddate" property="adddate" jdbcType="TIMESTAMP" />
+    <result column="editdate" property="editdate" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, title, descr, file_url, lesson_id, adddate, editdate
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from courseware
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from courseware
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.man.entity.Courseware" >
+    insert into courseware (id, title, descr, 
+      file_url, lesson_id, adddate, 
+      editdate)
+    values (#{id,jdbcType=INTEGER}, #{title,jdbcType=VARCHAR}, #{descr,jdbcType=VARCHAR}, 
+      #{fileUrl,jdbcType=VARCHAR}, #{lessonId,jdbcType=INTEGER}, #{adddate,jdbcType=TIMESTAMP}, 
+      #{editdate,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.man.entity.Courseware" >
+    insert into courseware
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="title != null" >
+        title,
+      </if>
+      <if test="descr != null" >
+        descr,
+      </if>
+      <if test="fileUrl != null" >
+        file_url,
+      </if>
+      <if test="lessonId != null" >
+        lesson_id,
+      </if>
+      <if test="adddate != null" >
+        adddate,
+      </if>
+      <if test="editdate != null" >
+        editdate,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="title != null" >
+        #{title,jdbcType=VARCHAR},
+      </if>
+      <if test="descr != null" >
+        #{descr,jdbcType=VARCHAR},
+      </if>
+      <if test="fileUrl != null" >
+        #{fileUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="lessonId != null" >
+        #{lessonId,jdbcType=INTEGER},
+      </if>
+      <if test="adddate != null" >
+        #{adddate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="editdate != null" >
+        #{editdate,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.man.entity.Courseware" >
+    update courseware
+    <set >
+      <if test="title != null" >
+        title = #{title,jdbcType=VARCHAR},
+      </if>
+      <if test="descr != null" >
+        descr = #{descr,jdbcType=VARCHAR},
+      </if>
+      <if test="fileUrl != null" >
+        file_url = #{fileUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="lessonId != null" >
+        lesson_id = #{lessonId,jdbcType=INTEGER},
+      </if>
+      <if test="adddate != null" >
+        adddate = #{adddate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="editdate != null" >
+        editdate = #{editdate,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.man.entity.Courseware" >
+    update courseware
+    set title = #{title,jdbcType=VARCHAR},
+      descr = #{descr,jdbcType=VARCHAR},
+      file_url = #{fileUrl,jdbcType=VARCHAR},
+      lesson_id = #{lessonId,jdbcType=INTEGER},
+      adddate = #{adddate,jdbcType=TIMESTAMP},
+      editdate = #{editdate,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+
+  <select id="selectCount" resultType="integer">
+    select count(1) from courseware where 1=1
+    <if test="lessonId != null">
+      and lesson_id = #{lessonId}
+    </if>
+  </select>
+  <select id="selectPage" resultMap="BaseResultMap">
+    select * from courseware where 1=1
+    <if test="lessonId != null">
+      and lesson_id = #{lessonId}
+    </if>
+    <if test="page != null and pageSize != null">
+      limit #{page} ,#{pageSize}
+    </if>
+  </select>
+</mapper>

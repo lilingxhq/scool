@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.man.dao.RevertDiscussionMapper" >
+  <resultMap id="BaseResultMap" type="com.man.entity.RevertDiscussion" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="revert" property="revert" jdbcType="VARCHAR" />
+    <result column="discu_id" property="discuId" jdbcType="INTEGER" />
+    <result column="user_id" property="userId" jdbcType="INTEGER" />
+    <result column="adddate" property="adddate" jdbcType="TIMESTAMP" />
+    <result column="editdate" property="editdate" jdbcType="TIMESTAMP" />
+    <result column="parent_id" property="parentId" jdbcType="INTEGER" />
+    <result column="target_user" property="targetUser" jdbcType="INTEGER" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, revert, discu_id, user_id, adddate, editdate, parent_id, target_user
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select
+    <include refid="Base_Column_List" />
+    from revert_discussion
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from revert_discussion
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.man.entity.RevertDiscussion" >
+    insert into revert_discussion (id, revert, discu_id, 
+      user_id, adddate, editdate, 
+      parent_id, target_user)
+    values (#{id,jdbcType=INTEGER}, #{revert,jdbcType=VARCHAR}, #{discuId,jdbcType=INTEGER}, 
+      #{userId,jdbcType=INTEGER}, #{adddate,jdbcType=TIMESTAMP}, #{editdate,jdbcType=TIMESTAMP}, 
+      #{parentId,jdbcType=INTEGER}, #{targetUser,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" parameterType="com.man.entity.RevertDiscussion" >
+    insert into revert_discussion
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="revert != null" >
+        revert,
+      </if>
+      <if test="discuId != null" >
+        discu_id,
+      </if>
+      <if test="userId != null" >
+        user_id,
+      </if>
+      <if test="adddate != null" >
+        adddate,
+      </if>
+      <if test="editdate != null" >
+        editdate,
+      </if>
+      <if test="parentId != null" >
+        parent_id,
+      </if>
+      <if test="targetUser != null" >
+        target_user,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="revert != null" >
+        #{revert,jdbcType=VARCHAR},
+      </if>
+      <if test="discuId != null" >
+        #{discuId,jdbcType=INTEGER},
+      </if>
+      <if test="userId != null" >
+        #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="adddate != null" >
+        #{adddate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="editdate != null" >
+        #{editdate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="parentId != null" >
+        #{parentId,jdbcType=INTEGER},
+      </if>
+      <if test="targetUser != null" >
+        #{targetUser,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.man.entity.RevertDiscussion" >
+    update revert_discussion
+    <set >
+      <if test="revert != null" >
+        revert = #{revert,jdbcType=VARCHAR},
+      </if>
+      <if test="discuId != null" >
+        discu_id = #{discuId,jdbcType=INTEGER},
+      </if>
+      <if test="userId != null" >
+        user_id = #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="adddate != null" >
+        adddate = #{adddate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="editdate != null" >
+        editdate = #{editdate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="parentId != null" >
+        parent_id = #{parentId,jdbcType=INTEGER},
+      </if>
+      <if test="targetUser != null" >
+        target_user = #{targetUser,jdbcType=INTEGER},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.man.entity.RevertDiscussion" >
+    update revert_discussion
+    set revert = #{revert,jdbcType=VARCHAR},
+      discu_id = #{discuId,jdbcType=INTEGER},
+      user_id = #{userId,jdbcType=INTEGER},
+      adddate = #{adddate,jdbcType=TIMESTAMP},
+      editdate = #{editdate,jdbcType=TIMESTAMP},
+      parent_id = #{parentId,jdbcType=INTEGER},
+      target_user = #{targetUser,jdbcType=INTEGER}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+
+  <select id="selectByParent" resultMap="BaseResultMap">
+    select * from revert_discussion where 1=1
+    <if test="parentId == null">
+      and (parent_id is null or parent_id = '')
+    </if>
+    <if test="parentId != null">
+      and parent_id = #{parentId}
+    </if>
+    <if test="curId != null">
+      and discu_id = #{curId}
+    </if>
+  </select>
+</mapper>

@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.man.dao.LessonMapper" >
+  <resultMap id="BaseResultMap" type="com.man.entity.Lesson" >
+    <id column="lesson_id" property="lessonId" jdbcType="INTEGER" />
+    <result column="name" property="name" jdbcType="VARCHAR" />
+    <result column="lesson_teacher" property="lessonTeacher" jdbcType="INTEGER" />
+    <result column="adddate" property="adddate" jdbcType="TIMESTAMP" />
+    <result column="editdate" property="editdate" jdbcType="TIMESTAMP" />
+    <result column="introduce" property="introduce" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    lesson_id, name, lesson_teacher, adddate, editdate, introduce
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from lesson
+    where lesson_id = #{lessonId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from lesson
+    where lesson_id = #{lessonId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.man.entity.Lesson" >
+    insert into lesson (lesson_id, name, lesson_teacher, 
+      adddate, editdate, introduce
+      )
+    values (#{lessonId,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, #{lessonTeacher,jdbcType=INTEGER}, 
+      #{adddate,jdbcType=TIMESTAMP}, #{editdate,jdbcType=TIMESTAMP}, #{introduce,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.man.entity.Lesson" >
+    insert into lesson
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="lessonId != null" >
+        lesson_id,
+      </if>
+      <if test="name != null" >
+        name,
+      </if>
+      <if test="lessonTeacher != null" >
+        lesson_teacher,
+      </if>
+      <if test="adddate != null" >
+        adddate,
+      </if>
+      <if test="editdate != null" >
+        editdate,
+      </if>
+      <if test="introduce != null" >
+        introduce,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="lessonId != null" >
+        #{lessonId,jdbcType=INTEGER},
+      </if>
+      <if test="name != null" >
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="lessonTeacher != null" >
+        #{lessonTeacher,jdbcType=INTEGER},
+      </if>
+      <if test="adddate != null" >
+        #{adddate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="editdate != null" >
+        #{editdate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="introduce != null" >
+        #{introduce,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.man.entity.Lesson" >
+    update lesson
+    <set >
+      <if test="name != null" >
+        name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="lessonTeacher != null" >
+        lesson_teacher = #{lessonTeacher,jdbcType=INTEGER},
+      </if>
+      <if test="adddate != null" >
+        adddate = #{adddate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="editdate != null" >
+        editdate = #{editdate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="introduce != null" >
+        introduce = #{introduce,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where lesson_id = #{lessonId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.man.entity.Lesson" >
+    update lesson
+    set name = #{name,jdbcType=VARCHAR},
+      lesson_teacher = #{lessonTeacher,jdbcType=INTEGER},
+      adddate = #{adddate,jdbcType=TIMESTAMP},
+      editdate = #{editdate,jdbcType=TIMESTAMP},
+      introduce = #{introduce,jdbcType=VARCHAR}
+    where lesson_id = #{lessonId,jdbcType=INTEGER}
+  </update>
+
+  <select id="selectCount" resultType="integer">
+    select count(1) from lesson
+  </select>
+
+  <select id="selectPage" resultMap="BaseResultMap">
+    select * from lesson where 1=1
+    <if test="lessonTeacher != null">
+      and lesson_teacher = #{lessonTeacher}
+    </if>
+    <if test="page != null and pageSize != null">
+      limit #{page} ,#{pageSize}
+    </if>
+  </select>
+
+  <select id="selectAll" resultMap="BaseResultMap">
+    select * from lesson
+  </select>
+</mapper>

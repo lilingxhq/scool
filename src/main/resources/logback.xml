@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration scan="true" scanPeriod="60 seconds" debug="true">
+	<!-- 定义参数常量 -->
+	<!-- 日志级别：TRACE<DEBUG<INFO<WARN<ERROR -->
+	<property name="log.level" value="DEBUG"/>
+	<property name="log.pattern"
+		value="%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{80} - %msg%n"/>
+	<property name="log.charset" value="UTF-8"/>
+	<!-- 控制台输出 -->
+	<appender name="consoleAppender" class="ch.qos.logback.core.ConsoleAppender">
+		<encoder>
+			<pattern>${log.pattern}</pattern>
+		</encoder>
+	</appender>
+
+	<!-- 总级别和输出控制，logger节点中的级别不受此控制 -->
+	<root level="${log.level}">
+		<appender-ref ref="consoleAppender" />
+	</root>
+</configuration>
